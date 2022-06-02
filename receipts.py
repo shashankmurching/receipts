@@ -37,14 +37,26 @@ class Receipt:
 
     def find_splitters(self):
         for item in self.items:
-            names = Receipt.get_input(f'Enter the names of the people who split {item}: ')
-            split_price = item.get_split_price(len(names))
+            while True:
+                names = Receipt.get_input(f'Enter the names of the people who split {item}: ')
+                split_price = item.get_split_price(len(names))
 
-            for name in names:
-                if name not in self.people:
-                    raise f'{name} was not found in previous list'
-                
-                self.people[name] += split_price
+                # Todo - Optimize validation
+                incorrect_name = False
+
+                for name in names:
+                    if name not in self.people:
+                        print(f'{name} was not found in previous list. Retrying...')
+                        incorrect_name = True
+                        break
+
+                if incorrect_name:
+                    continue
+
+                for name in names:
+                    self.people[name] += split_price
+
+                break
 
     def set_shared_costs(self):
         costs = Receipt.get_input("Enter the tax and tip separated by a comma: ")
