@@ -9,13 +9,11 @@ receipt.set_shared_costs()
 print(receipt)
 
 # Add in way mode selection (csv)
-
-# example:
 """
-shank,pratix,heli
+comma separated list of names
+item,cost
+...
+item,cost
 
-alc,3.50
-something,1231.32
-
-23.30,15.32
+tax,tip
 """
