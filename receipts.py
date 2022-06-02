@@ -1,18 +1,12 @@
 from item import *
+from basereceipt import BaseReceipt
 
-class Receipt:
+class Receipt(BaseReceipt):
     def __init__(self):
-        self.people = {}
-        self.items = []
+        super().__init__()
+
         self.add_people()
         self.add_items()
-
-    def __str__(self):
-        reprs = ""
-        for key, value in self.people.items():
-            reprs += str(f'{key} owes {value}\n')
-
-        return reprs
 
     @staticmethod
     def get_input(prompt):
@@ -61,28 +55,11 @@ class Receipt:
     def set_shared_costs(self):
         costs = Receipt.get_input("Enter the tax and tip separated by a comma: ")
         shared_cost = Money(costs[0]) + Money(costs[1])
-        item_total = self.get_item_subtotal()
+        item_total = super().get_item_subtotal()
 
         print(f'Item total + shared cost is: {item_total + shared_cost}')
 
         for key, value in self.people.items():
             self.people[key] += shared_cost * Money(value / item_total)
 
-        print(f'People total is: {self.get_people_total()}')
-
-    def get_item_subtotal(self):
-        subtotal = Money(0)
-
-        for item in self.items:
-            subtotal += item.price
-
-        return subtotal
-
-    def get_people_total(self):
-        subtotal = Money(0.0)
-
-        for _, value in self.people.items():
-            subtotal += value
-
-        return subtotal
-
+        print(f'People total is: {super().get_people_total()}')
